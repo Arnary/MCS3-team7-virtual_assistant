@@ -4,7 +4,7 @@ from datetime import datetime
 import re
 import os
 import pickle
-from errors import ValueNotValid, ValueMinError, ValueMaxError
+from errors import ValueMinError, ValueMaxError
 
 class Field:
     def __init__(self, value):
@@ -137,8 +137,8 @@ class Record:
             if self.address.value is not None:
                 self.address = None
                 return "Address removed successfully"
-        except Exception as e:
-            return f"\"{self.name.value}\" does not have address"
+        except Exception:
+            return f"\"{self.name.value}\" does not have address."
 
 
 class AddressBook(UserDict):
