@@ -1,4 +1,4 @@
-from errors import input_error
+from errors import input_error, ValueNotValid
 from address_book import Record
 
 
@@ -86,6 +86,35 @@ def remove_email(args, book):
         return rez
     else:
         raise KeyError
+
+@input_error
+def set_address(args, book):
+    try:
+        name = args[0]
+        address = " ".join(args[1:])
+        record = book.find(name)
+
+        if record is not None:
+            rez = record.set_address(address)
+            if rez:
+                book.add_record(record)
+            return rez
+        return f'"{name}" not found'
+    except Exception as e:
+        return e 
+
+@input_error    
+def remove_address(args, contacts):
+    name, = args
+    record = contacts.find(name)
+
+    if record is not None:
+        rez = record.remove_address()
+        if rez:
+            contacts.add_record(record)
+        return rez
+    return f'"{name}" not found'
+ 
 
 
 @input_error
