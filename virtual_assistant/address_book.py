@@ -1,5 +1,4 @@
-from collections import UserDict
-from collections import defaultdict
+from collections import defaultdict,UserDict
 from datetime import datetime
 import re
 import os
@@ -148,33 +147,14 @@ class Record:
 
 
 class AddressBook(UserDict):
-    def __init__(self):
-        super().__init__()
-        path = os.path.realpath(os.path.dirname(__file__))
-        self.filename = f'{path}/db.pkl'
-        self.read_from_file()
-
     def add_record(self, record):
         self.data[str(record.name)] = record
-        self.save_to_file()
-
+      
     def find(self, name):
         return self.data.get(name)
 
     def delete(self, name):
         del self.data[name]
-        self.save_to_file()
-
-    def save_to_file(self):
-        with open(self.filename, "wb") as file:
-            pickle.dump(self.data, file)
-
-    def read_from_file(self):
-        try:
-            with open(self.filename, "rb") as file:
-                self.data = pickle.load(file)
-        except (EOFError, FileNotFoundError):
-            self.data = {}
 
     def get_birthdays_per_week(self):
         happy_days = defaultdict(list)
@@ -215,3 +195,21 @@ class AddressBook(UserDict):
                 weekday_and_names += name + ", " if name != names[-1] else name
             result.append(weekday_and_names)
         return "\n".join(result)
+
+
+class SaveManager:
+    path = os.path.realpath(os.path.dirname(__file__))
+    filename = f'{path}/db.pkl'
+    
+    @staticmethod
+    def save_to_file(data):
+        with open(SaveManager.filename, "wb") as fh:
+            pickle.dump(data, fh)
+
+    @staticmethod
+    def read_from_file():
+        try:
+            with open(SaveManager.filename, "rb") as fh:
+                return pickle.load(fh)
+        except (EOFError, FileNotFoundError):
+            pass
