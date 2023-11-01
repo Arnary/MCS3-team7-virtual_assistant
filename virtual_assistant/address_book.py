@@ -217,9 +217,10 @@ class AddressBook(UserDict):
         return "\n".join(result)
     
     def search(self, search_line):
-        result = defaultdict(list)
         if len(search_line) < 2:
             return "Please enter more than two characters."
+        
+        result = defaultdict(list)
         
         def find_match(value, field_name):
                 matches = re.findall(search_line, value, flags=re.IGNORECASE)
