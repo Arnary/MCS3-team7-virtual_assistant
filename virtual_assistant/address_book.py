@@ -212,20 +212,20 @@ class AddressBook(UserDict):
     
     def search(self, search_line):
         result = defaultdict(list)
-
-        for record in self.data.values():
-
-            def find_match(value, field_name):
+        if len(search_line) < 2:
+            return "Please enter more than two characters."
+        
+        def find_match(value, field_name):
                 matches = re.findall(search_line, value, flags=re.IGNORECASE)
                 if matches: 
                     result[field_name].append(value + " (" + name + ")")
-
+        
+        for record in self.data.values():
             name = record.name.value
             name_matches = re.findall(search_line, name, flags=re.IGNORECASE)
 
             if name_matches: 
-                result["name"].append(name)
-            
+                result["names"].append(name)
             if len(record.phones) > 0:
                 for phone in record.phones:
                     find_match(phone.value, "phones")
@@ -236,15 +236,14 @@ class AddressBook(UserDict):
             if record.birthday:
                 find_match(record.birthday.value, "birthdays")
 
-        class bg:
-            YELLOW = "\033[43m"
-            END = "\033[0m"
-
         result_string = ""
+        border = "\n"+"*"*10+"\n"
+        bg_yellow = "\033[43m"
+        bg_end = "\033[0m"
 
         for key, value in result.items():
-            highlighted = bg.YELLOW + search_line + bg.END
-            line = re.sub(search_line, highlighted, ", ".join(value), flags=re.IGNORECASE)
+            highlight = bg_yellow + search_line + bg_end
+            line = re.sub(search_line, highlight, ", ".join(value), flags=re.IGNORECASE)
             result_string += key + ": " + line + "\n"
 
-        return result_string or f'No search results for the line "{search_line}"'
+        return  border + result_string[:-1] + border or f'No search results for the line "{search_line}"'
