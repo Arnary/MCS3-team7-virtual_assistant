@@ -101,10 +101,8 @@ def set_address(args, book):
             if result:
                 book.add_record(record)
             return result
-            return f'"{name}" not found'
         else:
             raise KeyError
-
 
 
 @input_error    
