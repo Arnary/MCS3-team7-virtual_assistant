@@ -4,6 +4,8 @@ class ValueMinError(Exception):
     """ Value less than min """
 class ValueMaxError(Exception):
     """ Value more than max """
+class NoteBodyMaxError(Exception):
+    """ Body more than max """
 
 def input_error(func):
     def inner(*args, **kwargs):
@@ -32,7 +34,7 @@ def input_error(func):
             return "Invalid command."
         except IndexError:
             return "You don't have any contacts yet."
-        except (ValueNotValid, ValueMinError, ValueMaxError) as e:
+        except (ValueNotValid, ValueMinError, ValueMaxError, NoteBodyMaxError) as e:
             return e
 
     return inner

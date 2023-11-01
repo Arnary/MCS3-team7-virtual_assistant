@@ -1,5 +1,7 @@
 from address_book import AddressBook
+from note import NoteStorage
 from bot_book_commands import *
+from bot_note_commands import *
 
 
 def main():
@@ -40,6 +42,10 @@ def main():
             print(set_address(args, book))
         elif command == "delete-address":
             print(remove_address(args, book))
+        elif command == "add-note":
+            print(add_note(args, book))
+        elif command == "delete-note":
+            print(delete_note(args, book))
         elif command == "help":
             print(show_help())
         else:

@@ -87,6 +87,7 @@ def remove_email(args, book):
     else:
         raise KeyError
 
+
 @input_error
 def set_address(args, book):
     try:
@@ -103,6 +104,7 @@ def set_address(args, book):
     except Exception as e:
         return e 
 
+
 @input_error    
 def remove_address(args, contacts):
     name, = args
@@ -115,7 +117,6 @@ def remove_address(args, contacts):
         return rez
     return f'"{name}" not found'
  
-
 
 @input_error
 def add_birthday(args, book): 
