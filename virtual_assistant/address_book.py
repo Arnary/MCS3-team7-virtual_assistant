@@ -6,6 +6,7 @@ import os
 import pickle
 from errors import ValueMinError, ValueMaxError
 
+
 class Field:
     def __init__(self, value):
         self.value = value
@@ -46,6 +47,7 @@ class Birthday(Field):
             raise ValueError("Date is in the wrong format.")
         super().__init__(value)
 
+
 class Address(Field):
     min_len = 3
     max_len = 512
@@ -61,6 +63,7 @@ class Address(Field):
             raise ValueMinError(f"Address cannot be less than {Address.min_len} characters")
         elif len(value) > Address.max_len:
             raise ValueMaxError(f"Address cannot be more than {Address.max_len} characters")
+
 
 class Record:
     def __init__(self, name):

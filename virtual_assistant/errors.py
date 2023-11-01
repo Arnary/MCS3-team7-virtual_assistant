@@ -2,6 +2,8 @@ class ValueMinError(Exception):
     """ Value less than min """
 class ValueMaxError(Exception):
     """ Value more than max """
+class NoteBodyMaxError(Exception):
+    """ Body more than max """
 
 
 def input_error(func):
@@ -9,6 +11,8 @@ def input_error(func):
         try:
             return func(*args, **kwargs)
         except KeyError:
+            if func.__name__ == "delete_note": 
+                return "Note does not exist."
             return "Contact not found."
         except ValueError as ex:
             if str(ex) == "Phone is in the wrong format.":
@@ -27,13 +31,19 @@ def input_error(func):
                 return "Give me name please."
             elif func.__name__ == "set_email" or func.__name__ == "remove_email":
                 return "Give me name and email please."
+            if func.__name__ == "set_address": 
+                return "Give me name and address please."
+            elif func.__name__ == "add_note":
+                return "Give me title and note's text please."
+            elif func.__name__ == "delete_note":
+                return "Give me title please."
 
             return "Invalid command."
         except IndexError:
-            if func.__name__ == "set_address": 
-                return "Give me name and address please."
+            if func.__name__ == "show_notes":
+                return "You don't have any notes yet."
             return "You don't have any contacts yet."
-        except (ValueMinError, ValueMaxError) as e:
+        except (ValueMinError, ValueMaxError, NoteBodyMaxError) as e:
             return e
 
     return inner

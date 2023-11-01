@@ -1,9 +1,12 @@
 from address_book import AddressBook
+from note import NoteBook
 from bot_book_commands import *
+from bot_note_commands import *
 
 
 def main():
     book = AddressBook()
+    notebook = NoteBook()
     print("Welcome to the assistant bot! \nType help to see the available commands.")
     while True:
         user_input = input("Enter a command: ")
@@ -42,6 +45,13 @@ def main():
             print(set_address(args, book))
         elif command == "delete-address":
             print(remove_address(args, book))
+        elif command == "add-note":
+            print(add_note(args, notebook))
+        elif command == "show-notes":
+            print(show_notes(notebook))  
+        elif command == "delete-note":
+            print(delete_note(args, notebook))
+            pass
         elif command == "search":
             print(search(args, book))
         elif command == "help":
