@@ -253,4 +253,6 @@ class AddressBook(UserDict):
             line = re.sub(search_line, highlight, ", ".join(value), flags=re.IGNORECASE)
             result_string += key + ": " + line + "\n"
 
-        return  border + result_string[:-1] + border or f'No search results for the line "{search_line}"'
+        if result_string == "":
+            return f'No search results for the line "{search_line}"'
+        return  border + result_string[:-1] + border 
