@@ -89,9 +89,9 @@ def remove_email(args, book):
     else:
         raise KeyError
 
+
 @input_error
 def set_address(args, book):
-    try:
         name = args[0]
         address = " ".join(args[1:])
         record = book.find(name)
@@ -104,6 +104,8 @@ def set_address(args, book):
         return f'"{name}" not found'
     except Exception as e:
         return e 
+    raise KeyError
+
 
 @input_error    
 def remove_address(args, contacts):
@@ -115,8 +117,7 @@ def remove_address(args, contacts):
         if result:
             contacts.add_record(record)
         return result
-    return f'"{name}" not found'
- 
+    raise KeyError
 
 
 @input_error
@@ -129,6 +130,7 @@ def add_birthday(args, book):
     else:
         raise KeyError
 
+        
 @input_error
 def delete_birthday(args, book):
     name, = args
@@ -141,6 +143,7 @@ def delete_birthday(args, book):
     else:
         raise ValueError
 
+        
 @input_error
 def show_birthday(args, book):
     name, = args

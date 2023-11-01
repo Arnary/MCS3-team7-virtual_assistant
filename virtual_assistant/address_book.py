@@ -144,7 +144,7 @@ class Record:
                 self.address = None
                 return "Address removed successfully"
         except Exception:
-            return f"\"{self.name.value}\" does not have address"
+            return f"\"{self.name.value}\" does not have address."
 
 
 class AddressBook(UserDict):
