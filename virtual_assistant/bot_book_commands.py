@@ -89,6 +89,33 @@ def remove_email(args, book):
 
 
 @input_error
+def set_address(args, book):
+    name = args[0]
+    address = " ".join(args[1:])
+    record = book.find(name)
+
+    if record is not None:
+        rez = record.set_address(address)
+        if rez:
+            book.add_record(record)
+        return rez
+    raise KeyError
+
+
+@input_error    
+def remove_address(args, contacts):
+    name, = args
+    record = contacts.find(name)
+
+    if record is not None:
+        rez = record.remove_address()
+        if rez:
+            contacts.add_record(record)
+        return rez
+    raise KeyError
+
+
+@input_error
 def add_birthday(args, book): 
     name, birthday = args
     if name in book.keys():

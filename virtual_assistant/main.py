@@ -36,6 +36,10 @@ def main():
             print(set_email(args, book))
         elif command == "delete-email":
             print(remove_email(args, book))
+        elif command == "add-address":
+            print(set_address(args, book))
+        elif command == "delete-address":
+            print(remove_address(args, book))
         elif command == "search":
             print(search(args, book))
         elif command == "help":
