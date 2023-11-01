@@ -12,10 +12,10 @@ def add_note(args, ):
     pass
 
 
-def delete_note(args, ):
-    title, = args
-    if title in book.keys():
-        book.delete(title)
-        return "Note deleted."
-    # else:
-    #     raise KeyError
+# def delete_note(args, ):
+#     title, = args
+#     if title in book.keys():
+#         book.delete(title)
+#         return "Note deleted."
+#     # else:
+#     #     raise KeyError

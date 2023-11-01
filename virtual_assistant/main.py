@@ -26,6 +26,8 @@ def main():
             print(show_all(book))
         elif command == "add-birthday":
             print(add_birthday(args, book))
+        elif command == "delete-birthday":
+            print(delete_birthday(args, book))
         elif command == "show-birthday":
             print(show_birthday(args, book))
         elif command == "birthdays":

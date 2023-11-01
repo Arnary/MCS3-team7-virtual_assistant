@@ -1,11 +1,10 @@
-class ValueNotValid(Exception):
-    """ Value Not Valid """
 class ValueMinError(Exception):
     """ Value less than min """
 class ValueMaxError(Exception):
     """ Value more than max """
 class NoteBodyMaxError(Exception):
     """ Body more than max """
+
 
 def input_error(func):
     def inner(*args, **kwargs):
@@ -26,15 +25,17 @@ def input_error(func):
                 return "Give me name, old phone and new phone please."
             elif func.__name__ == "add_birthday":
                 return "Give me name and birthday please."
-            elif func.__name__ == "show_phone" or func.__name__ == "show_birthday" or func.__name__ == "delete_contact":
+            elif func.__name__ == "show_phone" or func.__name__ == "show_birthday" or func.__name__ == "delete_contact" or func.__name__ == "remove_address":
                 return "Give me name please."
             elif func.__name__ == "set_email" or func.__name__ == "remove_email":
                 return "Give me name and email please."
 
             return "Invalid command."
         except IndexError:
+            if func.__name__ == "set_address": 
+                return "Give me name and address please."
             return "You don't have any contacts yet."
-        except (ValueNotValid, ValueMinError, ValueMaxError, NoteBodyMaxError) as e:
+        except (ValueMinError, ValueMaxError, NoteBodyMaxError) as e:
             return e
 
     return inner
