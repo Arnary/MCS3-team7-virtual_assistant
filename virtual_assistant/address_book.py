@@ -180,3 +180,42 @@ class AddressBook(UserDict):
                 weekday_and_names += name + ", " if name != names[-1] else name
             result.append(weekday_and_names)
         return "\n".join(result)
+    
+    def search(self, search_line):
+        result = defaultdict(list)
+
+        for record in self.data.values():
+
+            def find_match(value, field_name):
+                matches = re.findall(search_line, value, flags=re.IGNORECASE)
+                if matches: 
+                    result[field_name].append(value + " (" + name + ")")
+
+            name = record.name.value
+            name_matches = re.findall(search_line, name, flags=re.IGNORECASE)
+
+            if name_matches: 
+                result["name"].append(name)
+            
+            if len(record.phones) > 0:
+                for phone in record.phones:
+                    find_match(phone.value, "phones")
+            if record.email:
+                find_match(record.email.value, "emails")
+            if record.address:
+                find_match(record.address.value, "addresses")
+            if record.birthday:
+                find_match(record.birthday.value, "birthdays")
+
+        class bg:
+            YELLOW = "\033[43m"
+            END = "\033[0m"
+
+        result_string = ""
+
+        for key, value in result.items():
+            highlighted = bg.YELLOW + search_line + bg.END
+            line = re.sub(search_line, highlighted, ", ".join(value), flags=re.IGNORECASE)
+            result_string += key + ": " + line + "\n"
+
+        return result_string or f'No search results for the line "{search_line}"'
