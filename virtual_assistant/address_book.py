@@ -71,20 +71,23 @@ class Record:
         self.email = None
 
     def __str__(self):
-        rez = "\n"+"*"*10+"\n"
-        rez += f"Contact name: {self.name.value}\nphones: {'; '.join(p.value for p in self.phones)}"
+        result = "\n"+"*"*10+"\n"
+        result += f"Contact name: {self.name.value}"
+        
+        if len(self.phones):
+            result += f"\nphones: {'; '.join(p.value for p in self.phones)}"
 
         if self.email is not None:
-            rez += f"\nemail: {self.email.value}"
+            result += f"\nemail: {self.email.value}"
 
         if self.address is not None:
-            rez += f"\naddress: {self.address.value}"
+            result += f"\naddress: {self.address.value}"
 
         if self.birthday is not None:
-            rez += f"\nbirthday: {self.birthday}"
+            result += f"\nbirthday: {self.birthday}"
 
-        rez += "\n"+"*"*10
-        return rez
+        result += "\n"+"*"*10
+        return result
 
     def add_phone(self, phone):
         phone = Phone(phone)
@@ -109,6 +112,9 @@ class Record:
 
     def add_birthday(self, birthday):
         self.birthday = Birthday(birthday)
+    
+    def remove_birthday(self):
+        self.birthday = None
 
     def set_email(self, email):
         try:
