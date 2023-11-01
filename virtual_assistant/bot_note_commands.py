@@ -37,3 +37,4 @@ def delete_note(args, notebook):
         return "Note deleted."
     else:
         raise KeyError
+    

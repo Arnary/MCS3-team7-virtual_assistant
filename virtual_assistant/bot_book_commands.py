@@ -117,6 +117,7 @@ def remove_address(args, contacts):
         return result
     raise KeyError
 
+
 @input_error
 def add_birthday(args, book): 
     name, birthday = args
