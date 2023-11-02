@@ -42,7 +42,7 @@ def main():
         elif command == "show-birthday":
             print(show_birthday(args, book))
         elif command == "birthdays":
-            print(birthdays(book))
+            print(birthdays(args, book))
         elif command == "delete-contact":
             print(delete_contact(args, book))
         elif command == "delete-phone":

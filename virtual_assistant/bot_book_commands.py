@@ -1,4 +1,4 @@
-from errors import input_error 
+from errors import input_error, ValueMaxError
 from address_book import Record
 
 
@@ -156,11 +156,17 @@ def show_birthday(args, book):
 
 
 @input_error
-def birthdays(book):
+def birthdays(args, book):
+    if len(args) < 1:
+        raise ValueError
+    
+    date_range = int(args[0])
+    if not 0 < date_range < 365:
+        raise ValueMaxError
     if book == {}:
         raise IndexError
     else:
-        return book.get_birthdays_per_week()
+        return book.get_next_birthdays(date_range)
 
 
 @input_error
@@ -183,7 +189,7 @@ def show_help():
 # delete-phone 'name' 'phone number'
 # add-birthday 'name' 'birthday in format DD.MM.YYYY'
 # show-birthday 'name'
-# birthdays 
+# birthdays 'date range'
 # all
 # add-email 'name'
 # delete-email 'name'
