@@ -164,7 +164,7 @@ class AddressBook(UserDict):
         happy_days = defaultdict(list)
         current_day = datetime.today().date()
         for name, record in self.data.items():
-            if str(record.birthday) == "":
+            if record.birthday is None:
                 continue
             user_Bday = datetime.strptime(str(record.birthday), '%d.%m.%Y')
             user_Bday = datetime.date(user_Bday)
@@ -178,6 +178,9 @@ class AddressBook(UserDict):
             if delta_days < self.date_range:
                 birthday_date = birthday_this_year.strftime('%A, %B %d %Y')
                 happy_days[birthday_date].append(name)
+        happy_days = sorted(happy_days.items(), key=lambda x: datetime.strptime(
+    x[0], '%A, %B %d %Y'))
+        happy_days = dict(happy_days)
 
         return self.show_bd(happy_days)
 
