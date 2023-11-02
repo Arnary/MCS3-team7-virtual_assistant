@@ -30,6 +30,8 @@ def show_notes(notebook):
 
 @input_error
 def add_tags(args, notebook):
+    if len(args) < 2:
+        raise ValueError
     title = args[0]
     tags = args[1:]
 
