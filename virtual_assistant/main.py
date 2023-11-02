@@ -11,8 +11,9 @@ def main():
 
     if saved_data:
         saved_book = saved_data["book"]
-        # saved_notes = saved_data["notes"]
+        saved_notebook = saved_data["notebook"]
         book = AddressBook(saved_book)
+        notebook = NoteBook(saved_notebook)
         print("Address book has been loaded from file.")
     
     print("Welcome to the assistant bot! \nType help to see the available commands.")
@@ -21,7 +22,7 @@ def main():
         command, *args = parse_input(user_input)
 
         if command in ["close", "exit"]:
-            SaveManager.save_to_file({"book": book, "notes": None}) # TODO: save notes
+            SaveManager.save_to_file({"book": book, "notebook": notebook})
             print("Good bye!")
             break
         elif command == "hello":
