@@ -59,6 +59,8 @@ def main():
             print(add_note(args, notebook))
         elif command == "show-notes":
             print(show_notes(notebook))  
+        elif command == "add-tags":
+            print(add_tags(args, notebook))
         elif command == "delete-note":
             print(delete_note(args, notebook))
             pass
