@@ -11,6 +11,9 @@ def parse_input(user_input):
 
 @input_error
 def add_note(args, notebook):
+    if len(args) < 2:
+            raise ValueError
+    
     title = args[0]
     body = " ".join(args[1:])
     if title not in notebook.keys():

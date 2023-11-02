@@ -92,10 +92,12 @@ def remove_email(args, book):
 
 @input_error
 def set_address(args, book):
+        if len(args) < 2:
+            raise ValueError
+
         name = args[0]
         address = " ".join(args[1:])
         record = book.find(name)
-
         if record is not None:
             result = record.set_address(address)
             if result:
