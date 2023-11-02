@@ -1,15 +1,28 @@
-from address_book import AddressBook
+from address_book import AddressBook, SaveManager
+from note import NoteBook
 from bot_book_commands import *
+from bot_note_commands import *
 
 
 def main():
     book = AddressBook()
+    notebook = NoteBook()
+    saved_data = SaveManager.read_from_file()
+
+    if saved_data:
+        saved_book = saved_data["book"]
+        saved_notebook = saved_data["notebook"]
+        book = AddressBook(saved_book)
+        notebook = NoteBook(saved_notebook)
+        print("Address book has been loaded from file.")
+    
     print("Welcome to the assistant bot! \nType help to see the available commands.")
     while True:
         user_input = input("Enter a command: ")
         command, *args = parse_input(user_input)
 
         if command in ["close", "exit"]:
+            SaveManager.save_to_file({"book": book, "notebook": notebook})
             print("Good bye!")
             break
         elif command == "hello":
@@ -42,6 +55,15 @@ def main():
             print(set_address(args, book))
         elif command == "delete-address":
             print(remove_address(args, book))
+        elif command == "add-note":
+            print(add_note(args, notebook))
+        elif command == "show-notes":
+            print(show_notes(notebook))  
+        elif command == "add-tags":
+            print(add_tags(args, notebook))
+        elif command == "delete-note":
+            print(delete_note(args, notebook))
+            pass
         elif command == "help":
             print(show_help())
         else:
