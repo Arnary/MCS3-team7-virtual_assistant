@@ -27,13 +27,21 @@ def input_error(func):
                 return "Give me name please."
             elif func.__name__ == "set_email" or func.__name__ == "remove_email":
                 return "Give me name and email please."
+            elif func.__name__ == "birthdays":
+                return "Give me date range please."
+            
 
             return "Invalid command."
         except IndexError:
             if func.__name__ == "set_address": 
                 return "Give me name and address please."
+            elif func.__name__ == "birthdays":
+                return "Give me date range please."
             return "You don't have any contacts yet."
+            
         except (ValueMinError, ValueMaxError) as e:
+            if func.__name__ == "birthdays":
+                return "Date range should be more than 0 and less than 365"
             return e
 
     return inner
