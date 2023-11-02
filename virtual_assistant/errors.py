@@ -52,7 +52,7 @@ def input_error(func):
         except IndexError:
             if func.__name__ == "show_notes":
                 return "You don't have any notes yet."
-            return "You don't have any contacts yet.
+            return "You don't have any contacts yet."
         except (ValueMinError, ValueMaxError, NoteBodyMaxError) as e:
             if func.__name__ == "birthdays":
                 return "Date range should be more than 0 and less than 365"
