@@ -203,42 +203,51 @@ class AddressBook(UserDict):
         if len(search_line) < 2:
             return "Please enter more than two characters."
         
-        result = defaultdict(list)
-        
-        def find_match(value, field_name):
-                matches = re.findall(search_line, value, flags=re.IGNORECASE)
-                if matches: 
-                    result[field_name].append(value + " (" + name + ")")
-        
-        for record in self.data.values():
-            name = record.name.value
-            name_matches = re.findall(search_line, name, flags=re.IGNORECASE)
-
-            if name_matches: 
-                result["names"].append(name)
-            if len(record.phones) > 0:
-                for phone in record.phones:
-                    find_match(phone.value, "phones")
-            if record.email:
-                find_match(record.email.value, "emails")
-            if record.address:
-                find_match(record.address.value, "addresses")
-            if record.birthday:
-                find_match(record.birthday.value, "birthdays")
-
-        result_string = ""
-        border = "\n"+"*"*10+"\n"
+        result = ""
+        names_set = set()
         bg_yellow = "\033[43m"
         bg_end = "\033[0m"
+        border = "\n"+"*"*10+"\n"
+        search_line = search_line.lower()
 
-        for key, value in result.items():
-            highlight = bg_yellow + search_line + bg_end
-            line = re.sub(search_line, highlight, ", ".join(value), flags=re.IGNORECASE)
-            result_string += key + ": " + line + "\n"
+        for record in self.data.values():
+            if record.name.value.lower().find(search_line) != -1:
+                names_set.add(record.name.value)
+            if record.email and record.email.value.lower().find(search_line) != -1:
+                names_set.add(record.name.value)
+            if record.address and record.address.value.lower().find(search_line) != -1:
+                names_set.add(record.name.value)
+            for phone in record.phones:
+                if phone.value.find(search_line) != -1:
+                    names_set.add(record.name.value)
+                    break
 
-        if result_string == "":
-            return f'No search results for the line "{search_line}"'
-        return  border + result_string[:-1] + border 
+        def color_text(text):
+            matches = re.finditer(search_line, text, flags=re.IGNORECASE)
+            start = 0
+            color_text = ''
+            for i in matches:
+                i_start = i.start()
+                i_end = i.end()
+                color_text += text[start:i_start]
+                color_text += bg_yellow + text[i_start:i_end] + bg_end
+                start = i_end
+            return color_text + text[start:]
+        
+        for name in names_set:
+            record = self.find(name)
+            result += border + 'Contact name: ' + color_text(record.name.value)
+            if len(record.phones):
+                result += f"\nphones: {'; '.join(color_text(p.value) for p in record.phones)}"
+            if record.email:
+                result += f"\nemail: {color_text(record.email.value)}"
+            if record.address:
+                result += f"\naddress: {color_text(record.address.value)}"
+            if record.birthday:
+                result += f"\nbirthday: {color_text(record.birthday)}"
+            result += border
+
+        return result
 
 
 class SaveManager:

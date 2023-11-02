@@ -1,3 +1,4 @@
+import re
 from address_book import Field
 from collections import UserDict
 from errors import NoteBodyMaxError, NoteNotExistException
@@ -61,6 +62,45 @@ class NoteBook(UserDict):
 
         return record
 
+    def search_note(self, search_line):
+        if len(search_line) < 2:
+            return "Please enter more than two characters."
+        
+        result = ""
+        titles_set = set()
+        bg_yellow = "\033[43m"
+        bg_end = "\033[0m"
+        border = "\n"+"~"*10+"\n"
+        search_line = search_line.lower()
+
+        for record in self.data.values():
+            title = record.title.value.lower()
+            body = record.body.value.lower()
+            print(title, body)
+            if title.find(search_line) != 0 or body.find(search_line) != 0:
+                titles_set.add(title)
+
+        def color_text(text):
+            matches = re.finditer(search_line, text, flags=re.IGNORECASE)
+            start = 0
+            color_text = ''
+            for i in matches:
+                i_start = i.start()
+                i_end = i.end()
+                color_text += text[start:i_start]
+                color_text += bg_yellow + text[i_start:i_end] + bg_end
+                start = i_end
+            return color_text + text[start:]
+        
+        print(titles_set)
+        
+        for title in titles_set:
+           record = self.data[title]
+           body = record.body.value
+           result += border + 'Title: ' + color_text(title) + "\n" + 'Body: ' + color_text(body) + border
+
+        return result
+        
 class Tag(Field):
     def __init__(self, value):
         if value[0] == '#':
