@@ -43,6 +43,8 @@ def input_error(func):
                 return "Give me title and note's text please."
             elif func.__name__ == "delete_note":
                 return "Give me title please."
+            elif func.__name__ == "add_tags":
+                return "Give me title and tags please."
 
             return "Invalid command."
         except IndexError:
