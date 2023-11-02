@@ -23,7 +23,7 @@ def add_note(args, notebook):
 
 
 @input_error
-def show_notes(notebook): 
+def show_notes(args, notebook): 
     if notebook == {}:
         raise IndexError
     return "".join([f"{note}\n" for note in notebook.values()])
@@ -37,4 +37,19 @@ def delete_note(args, notebook):
         return "Note deleted."
     else:
         raise KeyError
-    
+
+
+commands_notes = {
+    "add-note": {
+        "action": add_note,
+        "description": "add-note ..."
+    }, 
+    "show-notes": {
+        "action": show_notes,
+        "description": "show-notes ..."
+    }, 
+    "delete-note": {
+        "action": delete_note,
+        "description": "delete-note ..."
+    }
+}
