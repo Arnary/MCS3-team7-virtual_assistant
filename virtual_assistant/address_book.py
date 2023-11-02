@@ -193,14 +193,14 @@ class AddressBook(UserDict):
             delta_days = (birthday_this_year - current_day).days
 
             if delta_days < self.date_range:
-                day_of_the_week = birthday_this_year.strftime("%A")
-                happy_days[day_of_the_week].append(name)
+                birthday_date = birthday_this_year.strftime('%A, %B %d %Y')
+                happy_days[birthday_date].append(name)
 
         return self.show_bd(happy_days)
 
     def show_bd(self, happy_days):
         if len(happy_days) == 0:
-            return "There are no birthdays for the next 7 days."
+            return f"There are no birthdays for the next {self.date_range} days."
         result = list()
         for day, names in happy_days.items():
             weekday_and_names = str()
