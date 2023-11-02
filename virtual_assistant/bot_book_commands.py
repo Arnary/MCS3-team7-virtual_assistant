@@ -157,6 +157,8 @@ def show_birthday(args, book):
 
 @input_error
 def birthdays(args, book):
+    if len(args) < 1:
+        raise ValueError
     
     date_range = int(args[0])
     if not 0 < date_range < 365:
