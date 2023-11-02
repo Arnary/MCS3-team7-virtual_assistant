@@ -1,4 +1,4 @@
-from errors import input_error
+from errors import TagsArgsException, input_error
 from note import NoteRecord
 
 
@@ -11,6 +11,9 @@ def parse_input(user_input):
 
 @input_error
 def add_note(args, notebook):
+    if len(args) < 2:
+            raise ValueError
+    
     title = args[0]
     body = " ".join(args[1:])
     if title not in notebook.keys():
@@ -23,11 +26,24 @@ def add_note(args, notebook):
 
 
 @input_error
-def show_notes(notebook): 
+def show_notes(notebook):
     if notebook == {}:
         raise IndexError
     return "".join([f"{note}\n" for note in notebook.values()])
 
+@input_error
+def add_tags(args, notebook):
+    if len(args) < 2:
+        raise ValueError
+    title = args[0]
+    tags = args[1:]
+
+    if len(tags) == 0:
+        raise TagsArgsException
+
+    record = notebook.find(title)
+
+    return record.add_tags(tags)
 
 @input_error
 def delete_note(args, notebook):

@@ -5,6 +5,12 @@ class ValueMaxError(Exception):
 class NoteBodyMaxError(Exception):
     """ Body more than max """
 
+class NoteNotExistException(Exception):
+    pass
+
+class TagsArgsException(Exception):
+    pass
+
 
 def input_error(func):
     def inner(*args, **kwargs):
@@ -37,6 +43,8 @@ def input_error(func):
                 return "Give me title and note's text please."
             elif func.__name__ == "delete_note":
                 return "Give me title please."
+            elif func.__name__ == "add_tags":
+                return "Give me title and tags please."
 
             return "Invalid command."
         except IndexError:
@@ -45,5 +53,9 @@ def input_error(func):
             return "You don't have any contacts yet."
         except (ValueMinError, ValueMaxError, NoteBodyMaxError) as e:
             return e
+        except NoteNotExistException:
+            return "Note does not exists." 
+        except TagsArgsException:
+            return "Please provide tags."
 
     return inner
