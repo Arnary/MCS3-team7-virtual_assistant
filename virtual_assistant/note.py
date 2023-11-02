@@ -1,6 +1,6 @@
 from address_book import Field
 from collections import UserDict
-from errors import NoteBodyMaxError
+from errors import NoteBodyMaxError, NoteNotExistException
 
 
 class NoteTitle(Field):
@@ -25,15 +25,24 @@ class NoteRecord:
     def __init__(self, title):
         self.title = NoteTitle(title)
         self.body = None
+        self.tags = []
 
     def __str__(self):
         result = "\n"+"~"*10+"\n"
-        result += f"{self.title.value}\n{self.body}"
+        result += f"Title: {self.title.value}\nBody: {self.body}"
+        tags = [str(tag) for tag in self.tags]
+        result += f"\nTags: [{', '.join(tags)}]"
         result += "\n"+"~"*10
         return result
     
     def add_body(self, body):
         self.body = NoteBody(body)
+
+    def add_tags(self, tags):
+        for tag in tags:
+            self.tags.append(Tag(tag))
+
+        return "Tags added."
 
 
 class NoteBook(UserDict):
@@ -42,3 +51,21 @@ class NoteBook(UserDict):
 
     def delete(self, title):
         del self.data[title]
+
+    def find(self, title):
+        record = self.data.get(title)
+
+        if not record:
+            raise NoteNotExistException
+
+        return record
+
+class Tag(Field):
+    def __init__(self, value):
+        if value[0] == '#':
+            value = value[1:]
+        super().__init__(value)
+
+    def __str__(self):
+        return '\033[94m' + '#' + self.value + '\033[0m'
+        
