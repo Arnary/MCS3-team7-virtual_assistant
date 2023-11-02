@@ -30,8 +30,9 @@ class NoteRecord:
     def __str__(self):
         result = "\n"+"~"*10+"\n"
         result += f"Title: {self.title.value}\nBody: {self.body}"
-        tags = [str(tag) for tag in self.tags]
-        result += f"\nTags: [{', '.join(tags)}]"
+        if len(self.tags) > 0:
+            tags = [str(tag) for tag in self.tags]
+            result += f"\nTags: [{', '.join(tags)}]"
         result += "\n"+"~"*10
         return result
     
