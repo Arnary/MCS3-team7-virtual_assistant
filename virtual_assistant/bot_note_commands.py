@@ -59,12 +59,10 @@ def search_by_tag(args, notebook):
 
     matched_notes_counts = Counter(matched_notes)  
 
-   
     if len(matched_notes_counts) == 0:
         return f"No search results for the tag '{tag}'" 
 
     return "".join([f"{note}\n" for note in matched_notes_counts.keys()])
-
 
 @input_error
 def delete_note(args, notebook):
