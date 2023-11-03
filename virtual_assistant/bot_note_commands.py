@@ -46,6 +46,17 @@ def add_tags(args, notebook):
     return record.add_tags(tags)
 
 @input_error
+def search_by_tag(args, notebook):
+    tag = args[0]
+    notes = notebook.search_by_tag(tag)
+
+    if len(notes) == 0:
+        return f"No search results for the tag '{tag}'"
+
+    return "".join([f"{note}\n" for note in notes])
+
+
+@input_error
 def delete_note(args, notebook):
     title, = args
     if title in notebook.keys():

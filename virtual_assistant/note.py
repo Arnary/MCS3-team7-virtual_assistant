@@ -61,6 +61,17 @@ class NoteBook(UserDict):
 
         return record
 
+    def search_by_tag(self, search_tag):
+        result = []
+
+        for record in self.data.values():
+            for tag in record.tags:
+                if tag.value == search_tag:
+                    result.append(record)
+
+        return result 
+
+
 class Tag(Field):
     def __init__(self, value):
         if value[0] == '#':

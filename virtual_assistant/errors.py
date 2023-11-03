@@ -52,6 +52,9 @@ def input_error(func):
         except IndexError:
             if func.__name__ == "show_notes":
                 return "You don't have any notes yet."
+            elif func.__name__ == "search_by_tag":
+                return "Please provide tag."
+            
             return "You don't have any contacts yet."
         except (ValueMinError, ValueMaxError, NoteBodyMaxError) as e:
             if func.__name__ == "birthdays":
