@@ -65,7 +65,6 @@ def main():
             print(search_by_tag(args, notebook))
         elif command == "delete-note":
             print(delete_note(args, notebook))
-            pass
         elif command == "search":
             print(search(args, book))
         elif command == "search-note":
