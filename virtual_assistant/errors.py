@@ -51,7 +51,7 @@ def input_error(func):
             return "Invalid command."  
         except IndexError:
             if func.__name__ == "show_notes":
-                return "You don't have any notes yet."
+                return "You don't have any notes yet."          
             return "You don't have any contacts yet."
         except (ValueMinError, ValueMaxError, NoteBodyMaxError) as e:
             if func.__name__ == "birthdays":
