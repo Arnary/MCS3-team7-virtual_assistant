@@ -130,7 +130,7 @@ class Record:
             if self.email.value is not None:
                 self.email = None
                 return "Email removed successfully."
-        except Exception as e:
+        except Exception:
             return f"\"{self.name.value}\" does not have email"
     
     def set_address(self, value):
