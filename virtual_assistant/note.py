@@ -32,7 +32,7 @@ class NoteRecord:
         result += f"Title: {self.title.value}\nBody: {self.body}"
         if len(self.tags) > 0:
             tags = [str(tag) for tag in self.tags]
-            result += f"\nTags: [{', '.join(tags)}]"
+            result += f"\nTags: {', '.join(tags)}"
         result += "\n"+"~"*10
         return result
     
@@ -60,6 +60,17 @@ class NoteBook(UserDict):
             raise NoteNotExistException
 
         return record
+
+    def search_by_tag(self, search_tag):
+        result = []
+
+        for record in self.data.values():
+            for tag in record.tags:
+                if tag.value == search_tag:
+                    result.append(record)
+
+        return result 
+
 
 class Tag(Field):
     def __init__(self, value):
