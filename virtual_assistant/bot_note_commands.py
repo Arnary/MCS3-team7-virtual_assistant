@@ -100,7 +100,7 @@ commands_notes = {
         "description": "add-tags ..." 
     }, 
     "search-by-tag": {
-        "action": search-by-tag,
+        "action": search_by_tag,
         "description": "search_by_tag ..." 
     }
 }
