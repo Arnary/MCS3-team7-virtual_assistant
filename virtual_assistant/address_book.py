@@ -214,6 +214,8 @@ class AddressBook(UserDict):
                 names_set.add(record.name.value)
             if record.address and record.address.value.lower().find(search_line) != -1:
                 names_set.add(record.name.value)
+            if record.birthday and record.birthday.value.lower().find(search_line) != -1:
+                names_set.add(record.name.value)
             for phone in record.phones:
                 if phone.value.find(search_line) != -1:
                     names_set.add(record.name.value)
@@ -241,7 +243,7 @@ class AddressBook(UserDict):
             if record.address:
                 result += f"\naddress: {color_text(record.address.value)}"
             if record.birthday:
-                result += f"\nbirthday: {color_text(record.birthday)}"
+                result += f"\nbirthday: {color_text(record.birthday.value)}"
             result += border
             
         if result == "":

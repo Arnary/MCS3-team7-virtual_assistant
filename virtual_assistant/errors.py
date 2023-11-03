@@ -35,6 +35,8 @@ def input_error(func):
                 return "Give me name and birthday please."
             elif func.__name__ == "show_phone" or func.__name__ == "show_birthday" or func.__name__ == "delete_contact" or func.__name__ == "remove_address":
                 return "Give me name please."
+            elif func.__name__ == "delete_birthday":
+                return "Give me name please."
             elif func.__name__ == "set_email" or func.__name__ == "remove_email":
                 return "Give me name and email please."
             elif func.__name__ == "birthdays":
@@ -47,6 +49,9 @@ def input_error(func):
                 return "Give me title please."
             elif func.__name__ == "add_tags":
                 return "Give me title and tags please."
+            elif func.__name__ == "search" or func.__name__ == "search-note":
+                return "You have not entered anything to search."
+            
 
             return "Invalid command."  
         except IndexError:
