@@ -32,7 +32,7 @@ class NoteRecord:
         result += f"Title: {self.title.value}\nBody: {self.body}"
         if len(self.tags) > 0:
             tags = [str(tag) for tag in self.tags]
-            result += f"\nTags: [{', '.join(tags)}]"
+            result += f"\nTags: {', '.join(tags)}"
         result += "\n"+"~"*10
         return result
     
