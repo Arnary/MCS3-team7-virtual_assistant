@@ -177,11 +177,6 @@ def search(args, book):
     search_line, = args
     return book.search(search_line)
 
-@input_error
-def search_note(args, notebook):
-    search_line, = args
-    return notebook.search_note(search_line)
-
 
 def show_help():
     return '''

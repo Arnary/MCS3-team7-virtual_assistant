@@ -246,7 +246,9 @@ class AddressBook(UserDict):
             if record.birthday:
                 result += f"\nbirthday: {color_text(record.birthday)}"
             result += border
-
+            
+        if result == "":
+            return f'No search results for the line "{search_line}"'
         return result
 
 

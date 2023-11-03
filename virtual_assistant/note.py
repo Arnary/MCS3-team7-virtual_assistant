@@ -76,8 +76,7 @@ class NoteBook(UserDict):
         for record in self.data.values():
             title = record.title.value.lower()
             body = record.body.value.lower()
-            print(title, body)
-            if title.find(search_line) != 0 or body.find(search_line) != 0:
+            if title.find(search_line) != -1 or body.find(search_line) != -1:
                 titles_set.add(title)
 
         def color_text(text):
@@ -92,14 +91,15 @@ class NoteBook(UserDict):
                 start = i_end
             return color_text + text[start:]
         
-        print(titles_set)
-        
         for title in titles_set:
            record = self.data[title]
            body = record.body.value
            result += border + 'Title: ' + color_text(title) + "\n" + 'Body: ' + color_text(body) + border
 
+        if result == "":
+            return f'No search results for the line "{search_line}"'
         return result
+
         
 class Tag(Field):
     def __init__(self, value):
