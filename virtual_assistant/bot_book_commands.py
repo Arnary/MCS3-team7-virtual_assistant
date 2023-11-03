@@ -1,4 +1,4 @@
-from errors import input_error 
+from errors import input_error, ValueMaxError
 from address_book import Record
 
 
@@ -92,10 +92,12 @@ def remove_email(args, book):
 
 @input_error
 def set_address(args, book):
+        if len(args) < 2:
+            raise ValueError
+
         name = args[0]
         address = " ".join(args[1:])
         record = book.find(name)
-
         if record is not None:
             result = record.set_address(address)
             if result:
@@ -133,7 +135,7 @@ def add_birthday(args, book):
 def delete_birthday(args, book):
     name, = args
     if name in book.keys() and book[name].birthday is None:
-        return f"{name} doesn't have birthday"
+        return f"\"{name}\" doesn't have birthday"
     elif name in book.keys() and book[name].birthday is not None:
         book[name].remove_birthday()
         book.add_record(book[name])
@@ -155,10 +157,16 @@ def show_birthday(args, book):
 
 @input_error
 def birthdays(args, book):
+    if len(args) < 1:
+        raise ValueError
+    
+    date_range = int(args[0])
+    if not 0 < date_range < 365:
+        raise ValueMaxError
     if book == {}:
         raise IndexError
     else:
-        return book.get_birthdays_per_week()
+        return book.get_next_birthdays(date_range)
 
 
 @input_error
@@ -169,6 +177,11 @@ def delete_contact(args, book):
         return "Contact deleted."
     else:
         raise KeyError
+    
+@input_error
+def search(args, book):
+    search_line, = args
+    return book.search(search_line)
 
 def greating(*args):
     return "How can I help you?"
@@ -234,4 +247,8 @@ commands_addressbook = {
         "action": remove_address,
         "description": "remove_address 'name'"
     },
+    "search": {
+        "action": search,
+        "description": "search ..."
+    }
 }

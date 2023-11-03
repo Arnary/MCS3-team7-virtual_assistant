@@ -43,6 +43,7 @@ def main():
             SaveManager.save_to_file({"book": book, "notebook": notebook})
             print("Good bye!")
             break
+
         elif command in commands_addressbook:
             print(commands[command]["action"](args, book))
         elif command in commands_notes:
@@ -55,9 +56,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-
-
-
-

@@ -130,7 +130,7 @@ class Record:
             if self.email.value is not None:
                 self.email = None
                 return "Email removed successfully."
-        except Exception as e:
+        except Exception:
             return f"\"{self.name.value}\" does not have email"
     
     def set_address(self, value):
@@ -159,11 +159,12 @@ class AddressBook(UserDict):
     def delete(self, name):
         del self.data[name]
 
-    def get_birthdays_per_week(self):
+    def get_next_birthdays(self, date_range):
+        self.date_range = int(date_range)
         happy_days = defaultdict(list)
         current_day = datetime.today().date()
         for name, record in self.data.items():
-            if str(record.birthday) == "":
+            if record.birthday is None:
                 continue
             user_Bday = datetime.strptime(str(record.birthday), '%d.%m.%Y')
             user_Bday = datetime.date(user_Bday)
@@ -174,22 +175,18 @@ class AddressBook(UserDict):
                     year=current_day.year+1)
             delta_days = (birthday_this_year - current_day).days
 
-            if delta_days < 7:
-                day_of_the_week = birthday_this_year.strftime("%A")
-                current_week_day = current_day.strftime("%A")
-                if day_of_the_week == "Saturday" or day_of_the_week == "Sunday":
-                    if (current_week_day == "Sunday" or current_week_day == "Monday") and birthday_this_year > current_day:
-                        continue
-
-                    happy_days["Monday"].append(name)
-                    continue
-                happy_days[day_of_the_week].append(name)
+            if delta_days < self.date_range:
+                birthday_date = birthday_this_year.strftime('%A, %B %d %Y')
+                happy_days[birthday_date].append(name)
+        happy_days = sorted(happy_days.items(), key=lambda x: datetime.strptime(
+    x[0], '%A, %B %d %Y'))
+        happy_days = dict(happy_days)
 
         return self.show_bd(happy_days)
 
     def show_bd(self, happy_days):
         if len(happy_days) == 0:
-            return "There are no birthdays for the next 7 days."
+            return f"There are no birthdays for the next {self.date_range} days."
         result = list()
         for day, names in happy_days.items():
             weekday_and_names = str()
@@ -198,6 +195,58 @@ class AddressBook(UserDict):
                 weekday_and_names += name + ", " if name != names[-1] else name
             result.append(weekday_and_names)
         return "\n".join(result)
+    
+    def search(self, search_line):
+        if len(search_line) < 2:
+            return "Please enter more than two characters."
+        
+        result = ""
+        names_set = set()
+        bg_yellow = "\033[43m"
+        bg_end = "\033[0m"
+        border = "\n"+"*"*10+"\n"
+        search_line = search_line.lower()
+
+        for record in self.data.values():
+            if record.name.value.lower().find(search_line) != -1:
+                names_set.add(record.name.value)
+            if record.email and record.email.value.lower().find(search_line) != -1:
+                names_set.add(record.name.value)
+            if record.address and record.address.value.lower().find(search_line) != -1:
+                names_set.add(record.name.value)
+            for phone in record.phones:
+                if phone.value.find(search_line) != -1:
+                    names_set.add(record.name.value)
+                    break
+
+        def color_text(text):
+            matches = re.finditer(search_line, text, flags=re.IGNORECASE)
+            start = 0
+            color_text = ''
+            for i in matches:
+                i_start = i.start()
+                i_end = i.end()
+                color_text += text[start:i_start]
+                color_text += bg_yellow + text[i_start:i_end] + bg_end
+                start = i_end
+            return color_text + text[start:]
+        
+        for name in names_set:
+            record = self.find(name)
+            result += border + 'Contact name: ' + color_text(record.name.value)
+            if len(record.phones):
+                result += f"\nphones: {'; '.join(color_text(p.value) for p in record.phones)}"
+            if record.email:
+                result += f"\nemail: {color_text(record.email.value)}"
+            if record.address:
+                result += f"\naddress: {color_text(record.address.value)}"
+            if record.birthday:
+                result += f"\nbirthday: {color_text(record.birthday)}"
+            result += border
+            
+        if result == "":
+            return f'No search results for the line "{search_line}"'
+        return result
 
 
 class SaveManager:

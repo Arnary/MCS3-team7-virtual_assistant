@@ -1,4 +1,5 @@
-from errors import input_error
+from collections import Counter
+from errors import TagsArgsException, input_error
 from note import NoteRecord
 
 
@@ -11,6 +12,9 @@ def parse_input(user_input):
 
 @input_error
 def add_note(args, notebook):
+    if len(args) < 2:
+            raise ValueError
+    
     title = args[0]
     body = " ".join(args[1:])
     if title not in notebook.keys():
@@ -28,6 +32,37 @@ def show_notes(args, notebook):
         raise IndexError
     return "".join([f"{note}\n" for note in notebook.values()])
 
+@input_error
+def add_tags(args, notebook):
+    if len(args) < 2:
+        raise ValueError
+    title = args[0]
+    tags = args[1:]
+
+    if len(tags) == 0:
+        raise TagsArgsException
+
+    record = notebook.find(title)
+
+    return record.add_tags(tags)
+
+@input_error
+def search_by_tag(args, notebook):
+    if len(args) == 0:
+        raise TagsArgsException
+    
+    matched_notes = []
+
+    for tag in args:
+        notes = notebook.search_by_tag(tag)
+        matched_notes.extend(notes)
+
+    matched_notes_counts = Counter(matched_notes)  
+
+    if len(matched_notes_counts) == 0:
+        return f"No search results for the tag '{tag}.'" 
+
+    return "".join([f"{note}\n" for note in matched_notes_counts.keys()])
 
 @input_error
 def delete_note(args, notebook):
@@ -38,7 +73,11 @@ def delete_note(args, notebook):
     else:
         raise KeyError
 
-
+@input_error
+def search_note(args, notebook):
+    search_line, = args
+    return notebook.search_note(search_line)
+    
 commands_notes = {
     "add-note": {
         "action": add_note,
@@ -51,5 +90,17 @@ commands_notes = {
     "delete-note": {
         "action": delete_note,
         "description": "delete-note ..."
+    }, 
+    "search-note": {
+        "action": search_note,
+        "description": "search-note ..." 
+    }, 
+    "add-tags": {
+        "action": add_tags,
+        "description": "add-tags ..." 
+    }, 
+    "search-by-tag": {
+        "action": search-by-tag,
+        "description": "search_by_tag ..." 
     }
 }
