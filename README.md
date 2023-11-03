@@ -8,11 +8,11 @@
 - Address
 - Email
 - Birthday
-- Tags - one record can have several tags
 
 **Note** entry includes next fields:
 - Name - **required**
 - Body
+- Tags - one record can have several tags
 
 ## Installation
 
@@ -20,8 +20,6 @@ To enjoy all the application features additional you need to install additional 
 
 ```python
 pip install -r requirements.txt  
-mac:  
-pip3 install -r requirements.txt
 ```
 
 ## Usage
@@ -49,11 +47,22 @@ pip3 install -r requirements.txt
 |**search-by-tags 'tags'**|shows all **Notes** that contain mentioned **'tags'**. Several **'tags'** can be used for search simultaneously.
 |**delete-note 'title'**|deletes **Note** with **'title'**
 |**help**|returns the list with all available commands
-  
 
-## Contributing  
+## Project Contents
+```
+├── virtual_assistant         <- Code for use in this project.
+│   ├── address_book.py       <- Classes and methods for Address Book.
+│   ├── bot_book_commands.py  <- Functions for all bot commands for Address Book.
+│   ├── bot_note_commands.py  <- Functions for all bot commands for Notes.
+│   ├── dynamic_completer.py  <- Class for working with the dynamic completer.
+│   ├── errors.py             <- Decorator function and Exceptions.
+│   ├── main.py               <- Code to run the bot.
+│   └── note.py               <- Classes and methods for Notes.
+│
+├── .gitignore                <- Files that should be ignored by git. Add seperate .gitignore files in sub folders if needed.
+├── README.md                 <- The top-level README for developers using this project.
+└── requirements.txt          <- The requirements file for reproducing the environment.
+```
+## Contributed 
 
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
-
-## License
-TimSim (Oleksandr Zharuk, Oksana Zakharevych, Anatolii Bezkrovnyi, Yevhen Zakharevych, Anastasia Dushka)
+[Anastasiia Dushka](https://github.com/Arnary), [Oleksandr Zharuk](https://github.com/zharuk-alex), [Yevhen Zakharevych](https://github.com/yevhen-zakharevych), [Oksana Zakharevych](https://github.com/oksana-habbasova), [Anatolii Bezkrovnyi](https://github.com/Anatoliy-Bezkrovnyi)
