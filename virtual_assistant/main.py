@@ -66,6 +66,10 @@ def main():
         elif command == "delete-note":
             print(delete_note(args, notebook))
             pass
+        elif command == "search":
+            print(search(args, book))
+        elif command == "search-note":
+            print(search_note(args, notebook))
         elif command == "help":
             print(show_help())
         else:

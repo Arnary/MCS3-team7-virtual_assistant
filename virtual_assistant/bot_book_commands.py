@@ -177,6 +177,11 @@ def delete_contact(args, book):
         return "Contact deleted."
     else:
         raise KeyError
+    
+@input_error
+def search(args, book):
+    search_line, = args
+    return book.search(search_line)
 
 
 def show_help():

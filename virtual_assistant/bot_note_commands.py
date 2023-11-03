@@ -72,4 +72,9 @@ def delete_note(args, notebook):
         return "Note deleted."
     else:
         raise KeyError
+
+@input_error
+def search_note(args, notebook):
+    search_line, = args
+    return notebook.search_note(search_line)
     

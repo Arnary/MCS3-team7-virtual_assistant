@@ -195,6 +195,58 @@ class AddressBook(UserDict):
                 weekday_and_names += name + ", " if name != names[-1] else name
             result.append(weekday_and_names)
         return "\n".join(result)
+    
+    def search(self, search_line):
+        if len(search_line) < 2:
+            return "Please enter more than two characters."
+        
+        result = ""
+        names_set = set()
+        bg_yellow = "\033[43m"
+        bg_end = "\033[0m"
+        border = "\n"+"*"*10+"\n"
+        search_line = search_line.lower()
+
+        for record in self.data.values():
+            if record.name.value.lower().find(search_line) != -1:
+                names_set.add(record.name.value)
+            if record.email and record.email.value.lower().find(search_line) != -1:
+                names_set.add(record.name.value)
+            if record.address and record.address.value.lower().find(search_line) != -1:
+                names_set.add(record.name.value)
+            for phone in record.phones:
+                if phone.value.find(search_line) != -1:
+                    names_set.add(record.name.value)
+                    break
+
+        def color_text(text):
+            matches = re.finditer(search_line, text, flags=re.IGNORECASE)
+            start = 0
+            color_text = ''
+            for i in matches:
+                i_start = i.start()
+                i_end = i.end()
+                color_text += text[start:i_start]
+                color_text += bg_yellow + text[i_start:i_end] + bg_end
+                start = i_end
+            return color_text + text[start:]
+        
+        for name in names_set:
+            record = self.find(name)
+            result += border + 'Contact name: ' + color_text(record.name.value)
+            if len(record.phones):
+                result += f"\nphones: {'; '.join(color_text(p.value) for p in record.phones)}"
+            if record.email:
+                result += f"\nemail: {color_text(record.email.value)}"
+            if record.address:
+                result += f"\naddress: {color_text(record.address.value)}"
+            if record.birthday:
+                result += f"\nbirthday: {color_text(record.birthday)}"
+            result += border
+            
+        if result == "":
+            return f'No search results for the line "{search_line}"'
+        return result
 
 
 class SaveManager:
