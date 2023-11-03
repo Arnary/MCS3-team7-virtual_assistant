@@ -92,7 +92,7 @@ class NoteBook(UserDict):
             return color_text + text[start:]
         
         for title in titles_set:
-           record = self.data[title]
+           record = self.find(title)
            body = record.body.value
            result += border + 'Title: ' + color_text(title) + "\n" + 'Body: ' + color_text(body) + border
 
