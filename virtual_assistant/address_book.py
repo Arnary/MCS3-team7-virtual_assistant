@@ -59,9 +59,9 @@ class Address(Field):
         if len(value) > Address.min_len and len(value) < Address.max_len:
             return value
         elif len(value) < Address.min_len:
-            raise ValueMinError(f"Address cannot be less than {Address.min_len} characters")
+            raise ValueMinError(f"Address cannot be less than {Address.min_len} characters.")
         elif len(value) > Address.max_len:
-            raise ValueMaxError(f"Address cannot be more than {Address.max_len} characters")
+            raise ValueMaxError(f"Address cannot be more than {Address.max_len} characters.")
 
 
 class Record:

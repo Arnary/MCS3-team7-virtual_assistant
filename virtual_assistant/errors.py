@@ -1,12 +1,18 @@
 class ValueMinError(Exception):
     """ Value less than min """
+
+
 class ValueMaxError(Exception):
     """ Value more than max """
+
+
 class NoteBodyMaxError(Exception):
     """ Body more than max """
 
+
 class NoteNotExistException(Exception):
     pass
+
 
 class TagsArgsException(Exception):
     pass
@@ -49,9 +55,8 @@ def input_error(func):
                 return "Give me title please."
             elif func.__name__ == "add_tags":
                 return "Give me title and tags please."
-            elif func.__name__ == "search" or func.__name__ == "search-note":
+            elif func.__name__ == "search" or func.__name__ == "search_note":
                 return "You have not entered anything to search."
-            
 
             return "Invalid command."  
         except IndexError:
@@ -60,7 +65,7 @@ def input_error(func):
             return "You don't have any contacts yet."
         except (ValueMinError, ValueMaxError, NoteBodyMaxError) as e:
             if func.__name__ == "birthdays":
-                return "Date range should be more than 0 and less than 365"
+                return "Date range should be more than 0 and less than 365."
             return e
         except NoteNotExistException:
             return "Note does not exists." 

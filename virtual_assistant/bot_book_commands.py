@@ -47,7 +47,7 @@ def show_phone(args, book):
 
 
 @input_error
-def show_all(book):
+def show_all(args, book):
     if book == {}:
         raise IndexError
     return "".join([f"{contact}\n" for contact in book.values()])
@@ -135,7 +135,7 @@ def add_birthday(args, book):
 def delete_birthday(args, book):
     name, = args
     if name in book.keys() and book[name].birthday is None:
-        return f"\"{name}\" doesn't have birthday"
+        return f"\"{name}\" doesn't have birthday."
     elif name in book.keys() and book[name].birthday is not None:
         book[name].remove_birthday()
         book.add_record(book[name])
@@ -178,25 +178,80 @@ def delete_contact(args, book):
     else:
         raise KeyError
     
+
 @input_error
 def search(args, book):
     search_line, = args
     return book.search(search_line)
 
 
-def show_help():
-    return '''
-# hello
-# add 'name' 'phone number'
-# delete-contact 'name'
-# change 'name' 'old phone number' 'new phone number'
-# phone 'name' 
-# delete-phone 'name' 'phone number'
-# add-birthday 'name' 'birthday in format DD.MM.YYYY'
-# show-birthday 'name'
-# birthdays 'date range'
-# all
-# add-email 'name'
-# delete-email 'name'
-# exit or close
-'''
+def greating(*args):
+    return "How can I help you?"
+
+
+commands_addressbook = {
+    "hello": {
+        "action": greating,
+        "description": "hello"
+    },
+    "add": {
+        "action": add_contact,
+        "description": "add 'name' 'phone number'"
+    },
+    "change": {
+        "action": change_contact,
+        "description": "change 'name' 'old phone number' 'new phone number'"
+    },
+    "delete-contact": {
+        "action": delete_contact,
+        "description": "delete-contact 'name'"
+    },
+    "all": {
+        "action": show_all,
+        "description": "all"
+    },
+    "phone": {
+        "action": show_phone,
+        "description": "phone 'name'"
+    },
+    "delete-phone": {
+        "action": phone_delete,
+        "description": "delete-phone 'name' 'phone number'"
+    },
+    "add-birthday": {
+        "action": add_birthday,
+        "description": "add-birthday 'name' 'birthday in format DD.MM.YYYY'"
+    },
+    "delete-birthday": {
+        "action": delete_birthday,
+        "description": "delete-birthday 'name'"
+    },
+    "show-birthday": {
+        "action": show_birthday,
+        "description": "show-birthday 'name'"
+    },
+    "birthdays": {
+        "action": birthdays,
+        "description": "birthdadys 'number of days'"
+    },
+    "add-email": {
+        "action": set_email,
+        "description": "add-email 'name' 'email'"
+    },
+    "delete-email": {
+        "action": remove_email,
+        "description": "delete-email 'name'"
+    },
+    "add-address": {
+        "action": set_address,
+        "description": "add-address 'name' 'address'"
+    },
+    "delete-address": {
+        "action": remove_address,
+        "description": "remove_address 'name'"
+    },
+    "search": {
+        "action": search,
+        "description": "search 'two or more characters to search for'"
+    }
+}

@@ -1,13 +1,29 @@
+from prompt_toolkit import prompt
+from dynamic_completer import DynamicCompleter
 from address_book import AddressBook, SaveManager
 from note import NoteBook
 from bot_book_commands import *
 from bot_note_commands import *
 
 
+def show_help(cmds):
+    result = "\n"
+    for item in cmds.values():
+        if 'description' in item:
+            result += f"# {item['description']}\n"
+    return result
+
+
 def main():
     book = AddressBook()
     notebook = NoteBook()
     saved_data = SaveManager.read_from_file()
+
+    commands = {}
+    for item in [commands_addressbook, commands_notes]:
+        commands.update(item) 
+    
+    autocomplete_commands = list(commands.keys())
 
     if saved_data:
         saved_book = saved_data["book"]
@@ -16,64 +32,26 @@ def main():
         notebook = NoteBook(saved_notebook)
         print("Address book has been loaded from file.")
     
-    print("Welcome to the assistant bot! \nType help to see the available commands.")
+    print("Welcome to the assistant bot! \nType 'help' to see the available commands or 'close'/'exit' to end the program.")
+
     while True:
-        user_input = input("Enter a command: ")
+
+        user_input = prompt("Enter a command: ", completer=DynamicCompleter(autocomplete_commands))
         command, *args = parse_input(user_input)
 
         if command in ["close", "exit"]:
             SaveManager.save_to_file({"book": book, "notebook": notebook})
             print("Good bye!")
             break
-        elif command == "hello":
-            print("How can I help you?")
-        elif command == "add":
-            print(add_contact(args, book))
-        elif command == "change":
-            print(change_contact(args, book))
-        elif command == "phone":
-            print(show_phone(args, book))
-        elif command == "all":
-            print(show_all(book))
-        elif command == "add-birthday":
-            print(add_birthday(args, book))
-        elif command == "delete-birthday":
-            print(delete_birthday(args, book))
-        elif command == "show-birthday":
-            print(show_birthday(args, book))
-        elif command == "birthdays":
-            print(birthdays(args, book))
-        elif command == "delete-contact":
-            print(delete_contact(args, book))
-        elif command == "delete-phone":
-            print(phone_delete(args, book))
-        elif command == "add-email":
-            print(set_email(args, book))
-        elif command == "delete-email":
-            print(remove_email(args, book))
-        elif command == "add-address":
-            print(set_address(args, book))
-        elif command == "delete-address":
-            print(remove_address(args, book))
-        elif command == "add-note":
-            print(add_note(args, notebook))
-        elif command == "show-notes":
-            print(show_notes(notebook))  
-        elif command == "add-tags":
-            print(add_tags(args, notebook))
-        elif command == "search-by-tags":
-            print(search_by_tag(args, notebook))
-        elif command == "delete-note":
-            print(delete_note(args, notebook))
-        elif command == "search":
-            print(search(args, book))
-        elif command == "search-note":
-            print(search_note(args, notebook))
-        elif command == "help":
-            print(show_help())
+        elif command in commands_addressbook:
+            print(commands[command]["action"](args, book))
+        elif command in commands_notes:
+            print(commands_notes[command]["action"](args, notebook))
+        elif command == 'help':
+            print(show_help(commands))
         else:
             print("Invalid command.")
-
+        
 
 if __name__ == "__main__":
     main()

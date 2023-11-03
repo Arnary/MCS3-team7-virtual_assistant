@@ -17,7 +17,7 @@ class NoteBody(Field):
 
     def validate(self, value):
         if len(value) > NoteBody.max_len:
-            raise NoteBodyMaxError(f"Note cannot be more than {NoteBody.max_len} characters")
+            raise NoteBodyMaxError(f"Note cannot be more than {NoteBody.max_len} characters.")
         else:
             return value
 
@@ -97,7 +97,7 @@ class NoteBook(UserDict):
            result += border + 'Title: ' + color_text(title) + "\n" + 'Body: ' + color_text(body) + border
 
         if result == "":
-            return f'No search results for the line "{search_line}"'
+            return f'No search results for the line "{search_line}."'
         return result
 
     def search_by_tag(self, search_tag):
@@ -118,5 +118,4 @@ class Tag(Field):
         super().__init__(value)
 
     def __str__(self):
-        return '\033[94m' + '#' + self.value + '\033[0m'
-        
+        return '\033[94m' + '#' + self.value + '\033[0m'        
