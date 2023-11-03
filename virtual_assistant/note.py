@@ -77,7 +77,7 @@ class NoteBook(UserDict):
             title = record.title.value.lower()
             body = record.body.value.lower()
             if title.find(search_line) != -1 or body.find(search_line) != -1:
-                titles_set.add(title)
+                titles_set.add(record.title.value)
 
         def color_text(text):
             matches = re.finditer(search_line, text, flags=re.IGNORECASE)
@@ -109,6 +109,7 @@ class NoteBook(UserDict):
                     result.append(record)
 
         return result 
+
 
 class Tag(Field):
     def __init__(self, value):
