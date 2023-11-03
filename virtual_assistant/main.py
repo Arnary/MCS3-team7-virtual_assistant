@@ -1,10 +1,11 @@
 from prompt_toolkit import prompt
-from prompt_toolkit.completion import WordCompleter
+from dynamic_completer import DynamicCompleter
 
 from address_book import AddressBook, SaveManager
 from note import NoteBook
 from bot_book_commands import *
 from bot_note_commands import *
+
 
 def show_help(cmds):
     result = "\n"
@@ -23,7 +24,6 @@ def main():
         commands.update(item) 
     
     autocomplete_commands = list(commands.keys())
-    completer = WordCompleter(autocomplete_commands)
 
     if saved_data:
         saved_book = saved_data["book"]
@@ -36,7 +36,7 @@ def main():
 
     while True:
 
-        user_input = prompt("Enter a command: ", completer=completer)
+        user_input = prompt("Enter a command: ", completer=DynamicCompleter(autocomplete_commands))
         command, *args = parse_input(user_input)
 
         if command in ["close", "exit"]:
@@ -53,6 +53,11 @@ def main():
             print("Invalid command.")
         
 
-
 if __name__ == "__main__":
     main()
+
+
+
+
+
+
