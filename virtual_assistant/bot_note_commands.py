@@ -32,6 +32,7 @@ def show_notes(args, notebook):
         raise IndexError
     return "".join([f"{note}\n" for note in notebook.values()])
 
+
 @input_error
 def add_tags(args, notebook):
     if len(args) < 2:
@@ -45,6 +46,7 @@ def add_tags(args, notebook):
     record = notebook.find(title)
 
     return record.add_tags(tags)
+
 
 @input_error
 def search_by_tag(args, notebook):
@@ -64,6 +66,7 @@ def search_by_tag(args, notebook):
 
     return "".join([f"{note}\n" for note in matched_notes_counts.keys()])
 
+
 @input_error
 def delete_note(args, notebook):
     title, = args
@@ -73,34 +76,36 @@ def delete_note(args, notebook):
     else:
         raise KeyError
 
+
 @input_error
 def search_note(args, notebook):
     search_line, = args
     return notebook.search_note(search_line)
-    
+
+
 commands_notes = {
     "add-note": {
         "action": add_note,
-        "description": "add-note ..."
+        "description": "add-note 'title in one word' 'body of your note'"
     }, 
     "show-notes": {
         "action": show_notes,
-        "description": "show-notes ..."
+        "description": "show-notes"
     }, 
     "delete-note": {
         "action": delete_note,
-        "description": "delete-note ..."
+        "description": "delete-note 'title'"
     }, 
     "search-note": {
         "action": search_note,
-        "description": "search-note ..." 
+        "description": "search-note 'two or more characters to search for'" 
     }, 
     "add-tags": {
         "action": add_tags,
-        "description": "add-tags ..." 
+        "description": "add-tags 'title' 'tag' - second and further tags are optional" 
     }, 
     "search-by-tag": {
         "action": search_by_tag,
-        "description": "search_by_tag ..." 
+        "description": "search_by_tag 'tag' - second and further tags are optional" 
     }
 }

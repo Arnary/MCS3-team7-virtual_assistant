@@ -1,6 +1,5 @@
 from prompt_toolkit import prompt
 from dynamic_completer import DynamicCompleter
-
 from address_book import AddressBook, SaveManager
 from note import NoteBook
 from bot_book_commands import *
@@ -13,6 +12,7 @@ def show_help(cmds):
         if 'description' in item:
             result += f"# {item['description']}\n"
     return result
+
 
 def main():
     book = AddressBook()
@@ -32,7 +32,7 @@ def main():
         notebook = NoteBook(saved_notebook)
         print("Address book has been loaded from file.")
     
-    print("Welcome to the assistant bot! \nType help to see the available commands.")
+    print("Welcome to the assistant bot! \nType 'help' to see the available commands or 'close'/'exit' to end the program.")
 
     while True:
 

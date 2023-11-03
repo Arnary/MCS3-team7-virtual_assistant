@@ -135,7 +135,7 @@ def add_birthday(args, book):
 def delete_birthday(args, book):
     name, = args
     if name in book.keys() and book[name].birthday is None:
-        return f"\"{name}\" doesn't have birthday"
+        return f"\"{name}\" doesn't have birthday."
     elif name in book.keys() and book[name].birthday is not None:
         book[name].remove_birthday()
         book.add_record(book[name])
@@ -178,13 +178,16 @@ def delete_contact(args, book):
     else:
         raise KeyError
     
+
 @input_error
 def search(args, book):
     search_line, = args
     return book.search(search_line)
 
+
 def greating(*args):
     return "How can I help you?"
+
 
 commands_addressbook = {
     "hello": {
@@ -229,11 +232,11 @@ commands_addressbook = {
     },
     "birthdays": {
         "action": birthdays,
-        "description": "birthdadys 'days'"
+        "description": "birthdadys 'number of days'"
     },
     "add-email": {
         "action": set_email,
-        "description": "add-email 'name'"
+        "description": "add-email 'name' 'email'"
     },
     "delete-email": {
         "action": remove_email,
@@ -241,7 +244,7 @@ commands_addressbook = {
     },
     "add-address": {
         "action": set_address,
-        "description": "add-address 'name' address"
+        "description": "add-address 'name' 'address'"
     },
     "delete-address": {
         "action": remove_address,
@@ -249,6 +252,6 @@ commands_addressbook = {
     },
     "search": {
         "action": search,
-        "description": "search ..."
+        "description": "search 'two or more characters to search for'"
     }
 }
