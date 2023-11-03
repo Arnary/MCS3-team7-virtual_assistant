@@ -37,7 +37,9 @@ def input_error(func):
                 return "Give me name please."
             elif func.__name__ == "set_email" or func.__name__ == "remove_email":
                 return "Give me name and email please."
-            if func.__name__ == "set_address": 
+            elif func.__name__ == "birthdays":
+                return "Give me date range please."
+            elif func.__name__ == "set_address": 
                 return "Give me name and address please."
             elif func.__name__ == "add_note":
                 return "Give me title and note's text please."
@@ -46,12 +48,14 @@ def input_error(func):
             elif func.__name__ == "add_tags":
                 return "Give me title and tags please."
 
-            return "Invalid command."
+            return "Invalid command."  
         except IndexError:
             if func.__name__ == "show_notes":
                 return "You don't have any notes yet."
             return "You don't have any contacts yet."
         except (ValueMinError, ValueMaxError, NoteBodyMaxError) as e:
+            if func.__name__ == "birthdays":
+                return "Date range should be more than 0 and less than 365"
             return e
         except NoteNotExistException:
             return "Note does not exists." 

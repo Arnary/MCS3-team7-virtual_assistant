@@ -1,4 +1,4 @@
-from errors import input_error 
+from errors import input_error, ValueMaxError
 from address_book import Record
 
 
@@ -108,14 +108,14 @@ def set_address(args, book):
 
 
 @input_error    
-def remove_address(args, contacts):
+def remove_address(args, book):
     name, = args
-    record = contacts.find(name)
+    record = book.find(name)
 
     if record is not None:
         result = record.remove_address()
         if result:
-            contacts.add_record(record)
+            book.add_record(record)
         return result
     raise KeyError
 
@@ -135,7 +135,7 @@ def add_birthday(args, book):
 def delete_birthday(args, book):
     name, = args
     if name in book.keys() and book[name].birthday is None:
-        return f"{name} doesn't have birthday"
+        return f"\"{name}\" doesn't have birthday"
     elif name in book.keys() and book[name].birthday is not None:
         book[name].remove_birthday()
         book.add_record(book[name])
@@ -156,11 +156,17 @@ def show_birthday(args, book):
 
 
 @input_error
-def birthdays(book):
+def birthdays(args, book):
+    if len(args) < 1:
+        raise ValueError
+    
+    date_range = int(args[0])
+    if not 0 < date_range < 365:
+        raise ValueMaxError
     if book == {}:
         raise IndexError
     else:
-        return book.get_birthdays_per_week()
+        return book.get_next_birthdays(date_range)
 
 
 @input_error
@@ -188,7 +194,7 @@ def show_help():
 # delete-phone 'name' 'phone number'
 # add-birthday 'name' 'birthday in format DD.MM.YYYY'
 # show-birthday 'name'
-# birthdays 
+# birthdays 'date range'
 # all
 # add-email 'name'
 # delete-email 'name'
