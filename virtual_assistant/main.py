@@ -61,7 +61,7 @@ def main():
             print(show_notes(notebook))  
         elif command == "add-tags":
             print(add_tags(args, notebook))
-        elif command == "search-by-tag":
+        elif command == "search-by-tags":
             print(search_by_tag(args, notebook))
         elif command == "delete-note":
             print(delete_note(args, notebook))

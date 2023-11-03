@@ -1,3 +1,4 @@
+from collections import Counter
 from errors import TagsArgsException, input_error
 from note import NoteRecord
 
@@ -47,13 +48,22 @@ def add_tags(args, notebook):
 
 @input_error
 def search_by_tag(args, notebook):
-    tag = args[0]
-    notes = notebook.search_by_tag(tag)
+    if len(args) == 0:
+        raise TagsArgsException
+    
+    matched_notes = []
 
-    if len(notes) == 0:
-        return f"No search results for the tag '{tag}'"
+    for tag in args:
+        notes = notebook.search_by_tag(tag)
+        matched_notes.extend(notes)
 
-    return "".join([f"{note}\n" for note in notes])
+    matched_notes_counts = Counter(matched_notes)  
+
+   
+    if len(matched_notes_counts) == 0:
+        return f"No search results for the tag '{tag}'" 
+
+    return "".join([f"{note}\n" for note in matched_notes_counts.keys()])
 
 
 @input_error
