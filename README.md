@@ -79,4 +79,4 @@ All "add" commands can overwrite the content of a contact or note if used on an 
 ```
 ## Contributed 
 
-[Anastasiia Dushka](https://github.com/Arnary), [Oleksandr Zharuk](https://github.com/zharuk-alex), [Yevhen Zakharevych](https://github.com/yevhen-zakharevych), [Oksana Zakharevych](https://github.com/oksana-habbasova), [Anatolii Bezkrovnyi](https://github.com/Anatoliy-Bezkrovnyi)
+[Anastasiia Dushka](https://github.com/Arnary), [Oleksandr Zharuk](https://github.com/zharuk-alex), [Yevhen Zakharevych](https://github.com/yevhen-zakharevych), [Oksana Habbasova](https://github.com/oksana-habbasova), [Anatolii Bezkrovnyi](https://github.com/Anatoliy-Bezkrovnyi)
