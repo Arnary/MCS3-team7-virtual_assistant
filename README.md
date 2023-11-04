@@ -14,15 +14,22 @@
 - Body
 - Tags - one record can have several tags
 
-## Installation
+## Getting Started
+
+Clone this repo (for help see this [tutorial](https://docs.github.com/ru/repositories/creating-and-managing-repositories/cloning-a-repository)).
+
+### Installation
 
 To enjoy all the application features additional you need to install additional packages: 
 
 ```python
-pip install -r requirements.txt  
+pip install -r requirements.txt
 ```
 
-## Usage
+### Usage
+```
+python main.py
+```
 
 **Virtual Assistant** is a console application. Type next commands in the console to interact with program, add your entries, modify and search them.    
 
